@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import http from "node:http";
-import { Database } from "./middlewares/database.js";
+import { Database } from "./database.js";
 import { json } from "./middlewares/json.js";
 
 const database = new Database();
