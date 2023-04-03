@@ -1,6 +1,6 @@
 import { Readable } from "node:stream";
 
-class OneToHundredStrem extends Readable {
+class OneToHundredStream extends Readable {
   index = 1;
 
   _read() {
@@ -20,11 +20,10 @@ class OneToHundredStrem extends Readable {
 
 fetch("http://localhost:3334", {
   method: "POST",
-  body: new OneToHundredStrem(),
-  duplex: "half",
+  body: new OneToHundredStream(),
 })
-  .then((response) => {
-    response.text();
+  .then((res) => {
+    return res.text();
   })
   .then((data) => {
     console.log(data);
