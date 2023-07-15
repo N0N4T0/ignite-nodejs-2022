@@ -1,46 +1,30 @@
-// TODO this is a mock only to test
-import { UsersRepository } from '../users-repository'
-
-interface User {
-  id: string
-  name: string
-  email: string
-  password_hash: string
-  created_at: Date
-}
-
-// TODO review implementation
+import { UsersRepository } from '@/repositories/users-repository'
+import { User, Prisma } from '@prisma/client'
 
 export class InMemoryUsersRepository implements UsersRepository {
-  public users: User[] = []
+  public items: User[] = []
 
   async findByEmail(email: string) {
-    const user = this.users.find((user) => user.email === email)
+    const user = this.items.find((item) => item.email === email)
 
-    const response = user ?? null
+    if (!user) {
+      return null
+    }
 
-    return Promise.resolve(response)
+    return user
   }
 
-  async create(data: User) {
-    const user = this.users.push(data)
-
-    let newUser: User = {
-      id: '0',
-      name: 'teste',
-      email: 'teste@gmail.com',
-      password_hash: 'asdasdas',
+  async create(data: Prisma.UserCreateInput) {
+    const user = {
+      id: 'user-1',
+      name: data.name,
+      email: data.email,
+      password_hash: data.password_hash,
       created_at: new Date(),
     }
 
-    const response = this.users.find((findUser) => findUser.id === `${user}`)
+    this.items.push(user)
 
-    if (response) {
-      newUser = response
-
-      return Promise.resolve(newUser)
-    }
-
-    return Promise.resolve(newUser)
+    return user
   }
 }
