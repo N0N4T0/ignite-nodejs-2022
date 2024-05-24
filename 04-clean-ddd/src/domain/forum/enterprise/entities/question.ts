@@ -52,6 +52,10 @@ export class Question extends Entity<QuestionProps> {
     this.props.updatedAt = new Date()
   }
 
+  get slug() {
+    return this.props.slug
+  }
+
   set content(content: string) {
     this.props.content = content
     this.touch()
