@@ -33,8 +33,8 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     return questions
   }
 
-  async create(answer: Question) {
-    this.items.push(answer)
+  async create(question: Question) {
+    this.items.push(question)
   }
 
   async save(question: Question) {

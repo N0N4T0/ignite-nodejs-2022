@@ -3,7 +3,6 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 export interface CommentProps {
   authorId: UniqueEntityID
-  answerId: UniqueEntityID
   content: string
   createdAt: Date
   updatedAt?: Date
