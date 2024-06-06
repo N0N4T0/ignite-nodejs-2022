@@ -17,8 +17,7 @@ type AnswerQuestionUseCaseResponse = Either<
 >
 
 export class AnswerQuestionUseCase {
-  constructor(private answerRepository: AnswersRepository) {}
-
+  constructor(private answersRepository: AnswersRepository) {}
   async execute({
     instructorId,
     questionId,
@@ -30,8 +29,10 @@ export class AnswerQuestionUseCase {
       questionId: new UniqueEntityID(questionId),
     })
 
-    await this.answerRepository.create(answer)
+    await this.answersRepository.create(answer)
 
-    return right({ answer })
+    return right({
+      answer,
+    })
   }
 }
