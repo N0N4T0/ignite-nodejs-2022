@@ -1,14 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AggregateRoot } from '../entities/aggregate-root'
 import { UniqueEntityID } from '../entities/unique-entity-id'
 import { DomainEvent } from './domain-event'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DomainEventCallback = (event: any) => void
 
 export class DomainEvents {
   private static handlersMap: Record<string, DomainEventCallback[]> = {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static markedAggregates: AggregateRoot<any>[] = []
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static markAggregateForDispatch(aggregate: AggregateRoot<any>) {
     const aggregateFound = !!this.findMarkedAggregateByID(aggregate.id)
 
@@ -17,11 +19,13 @@ export class DomainEvents {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static dispatchAggregateEvents(aggregate: AggregateRoot<any>) {
     aggregate.domainEvents.forEach((event: DomainEvent) => this.dispatch(event))
   }
 
   private static removeAggregateFromMarkedDispatchList(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     aggregate: AggregateRoot<any>,
   ) {
     const index = this.markedAggregates.findIndex((a) => a.equals(aggregate))
@@ -31,6 +35,7 @@ export class DomainEvents {
 
   private static findMarkedAggregateByID(
     id: UniqueEntityID,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): AggregateRoot<any> | undefined {
     return this.markedAggregates.find((aggregate) => aggregate.id.equals(id))
   }
