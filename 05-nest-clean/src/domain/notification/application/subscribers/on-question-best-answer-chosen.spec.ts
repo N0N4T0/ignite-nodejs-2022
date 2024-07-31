@@ -13,6 +13,8 @@ import { makeQuestion } from 'test/factories/make-question'
 import { SpyInstance } from 'vitest'
 import { waitFor } from 'test/utils/wait-for'
 import { OnQuestionBestAnswerChosen } from '@/domain/notification/application/subscribers/on-question-best-answer-chosen'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
@@ -20,7 +22,8 @@ let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository
 let sendNotificationUseCase: SendNotificationUseCase
-
+let inMemoryStudentsRepository: InMemoryStudentsRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let sendNotificationExecuteSpy: SpyInstance<
   [SendNotificationUseCaseRequest],
   Promise<SendNotificationUseCaseResponse>
@@ -30,8 +33,12 @@ describe('On Question Best Answer Chosen', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryStudentsRepository,
     )
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
@@ -42,9 +49,7 @@ describe('On Question Best Answer Chosen', () => {
     sendNotificationUseCase = new SendNotificationUseCase(
       inMemoryNotificationsRepository,
     )
-
     sendNotificationExecuteSpy = vi.spyOn(sendNotificationUseCase, 'execute')
-
     new OnQuestionBestAnswerChosen(
       inMemoryAnswersRepository,
       sendNotificationUseCase,
